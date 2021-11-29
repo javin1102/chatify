@@ -22,6 +22,7 @@
 html {
   font-size: 62.5%;
   font-family: "Rubik", sans-serif;
+  background-color: rgb(226, 213, 169);
 }
 
 a {
@@ -49,11 +50,11 @@ body {
   top: 50%;
   transform: translate(-50%, -50%);
   height: 90%;
-  /* background-color: var(--light-grayish-violet); */
-  background-color: white;
+  background-color: var(--light-grayish-violet);
+  /* background-color: #f1f1f1; */
   font-size: 1.6rem;
   border-radius: 2rem;
-  overflow-x: hidden;
+  overflow: hidden;
   box-shadow: -1px 1px 5px var(--light-violet);
 }
 

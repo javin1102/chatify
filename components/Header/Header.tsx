@@ -47,7 +47,7 @@ const HeaderAuthenticated: React.FC = () => {
           <Image src={avatar} layout="fill" alt="avatar" />
         </div>
         <div className={styles["profile__detail"]}>
-          <p>Javin Rionardi</p>
+          <h2>Javin Rionardi</h2>
           <div className={styles["profile__id"]}>
             <p id="user-id">12345678</p>
             <div className={styles["profile__copy"]}>

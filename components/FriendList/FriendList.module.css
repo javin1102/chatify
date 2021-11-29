@@ -1,0 +1,47 @@
+.layout {
+  padding: 0rem 2.5rem;
+  overflow-y: auto;
+  height: 87.5%;
+}
+.pic {
+  position: relative;
+  border-radius: 50%;
+  width: 3.5rem;
+  height: 3.5rem;
+  overflow: hidden;
+}
+
+.friend-layout {
+  display: flex;
+  cursor: pointer;
+  margin-top: 1.5rem;
+}
+
+.friend-detail {
+  margin-left: 1rem;
+}
+
+.friend-detail p {
+  width: 40vw;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 1.2rem;
+  margin-top: 0.25rem;
+}
+
+.friend-detail h2 {
+  font-size: 1.4rem;
+}
+
+.friend-layout + hr {
+  border-top: 1px solid var(--light-violet);
+  background-color: transparent;
+  box-shadow: none;
+  display: block;
+  margin-top: 1.5rem;
+}
+
+.friend-container:last-child > hr {
+  display: none;
+}
