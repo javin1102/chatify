@@ -1,0 +1,112 @@
+.header {
+  width: 100%;
+  background: linear-gradient(
+    to right,
+    var(--light-violet),
+    var(--light-magenta)
+  );
+  color: white;
+  padding: 1rem 2.5rem;
+  display: flex;
+  align-items: center;
+  height: 7.5rem;
+  position: sticky;
+  top: 0rem;
+  z-index: 100;
+}
+.header > svg {
+  width: 3rem;
+  height: 3rem;
+  cursor: pointer;
+}
+.profile {
+  display: flex;
+  margin-left: 1rem;
+}
+.profile__image {
+  width: 5rem;
+  height: 5rem;
+  position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid white;
+}
+.profile__detail {
+  height: 100%;
+  margin-left: 1rem;
+  margin-top: 0.3rem;
+}
+.profile__detail > h2 {
+  font-size: 1.4rem;
+  margin-top: 0.5rem;
+  font-weight: 500;
+}
+.profile__detail p {
+  font-size: 1.2rem;
+  margin-top: 0.4rem;
+  color: rgba(255, 255, 255, 0.836);
+}
+.chatbox {
+  max-width: 40rem;
+  width: fit-content;
+  border-radius: 0.8rem;
+  font-size: 1.2rem;
+  padding: 1.3rem;
+  line-height: 1.8rem;
+}
+
+.chatbox:not(:last-child) {
+  margin-bottom: 1.5rem;
+}
+
+.chatbox.friend {
+  color: var(--moderate-violet);
+  background-color: var(--pale-violet);
+}
+
+.chatbox.me {
+  color: var(--very-dark-desaturated-violet);
+  background-color: white;
+  box-shadow: 1px 3px 5px rgb(209, 209, 209);
+  display: block;
+  margin-left: auto;
+}
+
+.input-layout {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 2rem;
+  width: 95rem;
+}
+
+.input-layout input {
+  width: 100%;
+  border-radius: 4rem;
+  padding: 1.7rem 2rem;
+  border: none;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.137);
+  outline: none;
+  font-family: "Rubik", sans-serif;
+  color: var(--very-dark-desaturated-violet);
+}
+
+.send-button {
+  border-radius: 50%;
+  background-color: var(--very-dark-desaturated-violet);
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+.send-button svg {
+  object-fit: cover;
+  width: 2rem;
+  height: 2rem;
+  stroke: white;
+}
