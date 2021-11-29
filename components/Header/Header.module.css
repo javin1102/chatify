@@ -1,0 +1,127 @@
+.header {
+  width: 100%;
+  background: linear-gradient(
+    to right,
+    var(--light-violet),
+    var(--light-magenta)
+  );
+  color: white;
+  padding: 1rem 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 7.5rem;
+}
+
+.profile {
+  display: flex;
+  margin-right: 2rem;
+}
+.profile__image {
+  width: 5rem;
+  height: 5rem;
+  position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.profile__detail {
+  height: 100%;
+  margin-left: 1rem;
+}
+.profile__detail > p {
+  font-size: 1.4rem;
+  margin-top: 0.5rem;
+  font-weight: 500;
+}
+
+.profile__id {
+  display: flex;
+  align-items: center;
+  margin-top: 0.3rem;
+}
+.profile__id p {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.945);
+}
+.profile__copy {
+  margin-left: 1rem;
+  display: flex;
+  align-items: center;
+}
+.profile__copy-icon {
+  width: 1.7rem;
+  height: 1.7rem;
+  cursor: pointer;
+  margin: 0 auto;
+  display: block;
+}
+
+.profile__copy-text {
+  font-size: 1rem;
+  transform: translateY(50%);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease-out;
+}
+.profile__copy-text.active {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+.add-user {
+  display: flex;
+  align-items: center;
+  position: relative;
+  max-width: 20rem;
+}
+.add-user input {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid white;
+  outline: none;
+  color: white;
+  margin-right: 1rem;
+  font-size: 1.4rem;
+  padding-bottom: 0.2rem;
+  width: 100%;
+}
+
+.add-user input::-webkit-outer-spin-button,
+.add-user input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.add-user input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.add-user input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.header__add-icon {
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+  position: absolute;
+  right: 1rem;
+  top: -0.5rem;
+}
+
+.sign-button {
+  margin-left: auto;
+}
+
+.sign-button a {
+  border-radius: 2rem;
+  border: 1px solid white;
+  padding: 1rem 2rem;
+  transition: all 0.25s ease-out;
+  font-size: 1.2rem;
+}
+
+.sign-button a:hover {
+  color: var(--light-magenta);
+  background: white;
+}

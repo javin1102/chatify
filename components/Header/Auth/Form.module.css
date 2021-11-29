@@ -1,0 +1,52 @@
+.form {
+  margin-top: 8rem;
+}
+
+.form__content {
+  display: flex;
+  flex-direction: column;
+  width: min(40vw, 50rem);
+}
+
+.form > .form__content:not(:last-child) {
+  margin-bottom: 1.5rem;
+}
+
+.form__content input {
+  border-radius: 2rem;
+  padding: 1rem 1.5rem;
+  outline: none;
+  border-color: transparent;
+  border-width: 1px;
+}
+
+.form__content input::placeholder {
+  font-family: "Rubik", sans-serif;
+}
+
+.form__button {
+  padding: 0.8rem 2rem;
+  border-radius: 2rem;
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: all 0.25s;
+  display: block;
+  margin-left: auto;
+}
+
+.form__button:hover {
+  color: var(--light-violet);
+  background-color: white;
+}
+
+.form__link {
+  text-decoration: underline;
+}
+
+.form__navigation {
+  margin-top: 2rem;
+  font-size: 1.4rem;
+}
