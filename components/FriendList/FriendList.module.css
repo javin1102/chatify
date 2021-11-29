@@ -3,6 +3,17 @@
   overflow-y: auto;
   height: 87.5%;
 }
+.heading {
+  display: flex;
+  align-items: center;
+  margin-bottom: 3rem;
+  font-weight: 500;
+}
+.heading > svg {
+  width: 2.4rem;
+  height: 2.4rem;
+  margin-right: 0.5rem;
+}
 .pic {
   position: relative;
   border-radius: 50%;
@@ -10,7 +21,9 @@
   height: 3.5rem;
   overflow: hidden;
 }
-
+.list {
+  margin: 0 3rem;
+}
 .friend-layout {
   display: flex;
   cursor: pointer;
