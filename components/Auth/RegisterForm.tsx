@@ -133,13 +133,13 @@ const RegisterForm: React.FC = () => {
         );
 
         formValue.miscEmail = true;
-
-        if (upperErrorMessage === "Email alredy in use") {
-          dispatch({ type: ValidateFormType.EMAIL, payload: formValue });
+        if (upperErrorMessage === "Email already in use") {
+          console.log(upperErrorMessage);
           setErrorMessage((state: ErrorMessageType) => ({
             ...state,
             emailMessage: "Email already in use",
           }));
+          dispatch({ type: ValidateFormType.EMAIL, payload: formValue });
         }
       });
   };
