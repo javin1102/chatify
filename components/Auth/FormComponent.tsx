@@ -1,21 +1,39 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import styles from "./Form.module.css";
 interface InputProps {
   id: string;
   type: string;
   placeholder: string;
+  errorMessage?: string | null | undefined;
+  isError: boolean;
 }
-export const FormInput: React.FC<InputProps> = ({ id, type, placeholder }) => {
-  return (
-    <div className={styles["form__content"]}>
-      <input id={id} type={type} placeholder={placeholder} />
-    </div>
-  );
-};
+interface ButtonProps {
+  children: string;
+  // onClick: React.MouseEventHandler<HTMLButtonElement>;
+}
+export const FormInput = forwardRef<HTMLInputElement, InputProps>(
+  ({ id, placeholder, type, errorMessage, isError }, ref) => {
+    return (
+      <div className={styles["form__content"]}>
+        <input id={id} type={type} placeholder={placeholder} ref={ref} />
+        <p>{isError && errorMessage}</p>
+      </div>
+    );
+  }
+);
+FormInput.displayName = "Form Input";
 
-export const FormButton: React.FC = ({ children }) => {
-  return <button className={styles["form__button"]}>{children}</button>;
-};
+export const FormButton = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ children }, ref) => {
+    return (
+      <button className={styles["form__button"]} ref={ref}>
+        {children}
+      </button>
+    );
+  }
+);
+
+FormButton.displayName = "Form Button";
 
 export const FormLink: React.FC<{ href: string }> = ({ children, href }) => {
   return (

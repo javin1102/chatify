@@ -1,9 +1,10 @@
+import { NextPage } from "next";
 import ChatHeader from "../../components/Chat/ChatHeader";
 import ChatInputForm from "../../components/Chat/ChatInputForm";
 import FriendChatBox from "../../components/Chat/FriendChatBox";
 import MyChatBox from "../../components/Chat/MyChatBox";
 
-const ChatPage: React.FC = () => {
+const ChatPage: NextPage = () => {
   return (
     <div className="app-container">
       <ChatHeader />
