@@ -16,7 +16,7 @@ export const FormInput = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className={styles["form__content"]}>
         <input id={id} type={type} placeholder={placeholder} ref={ref} />
-        <p>{isError && errorMessage}</p>
+        <p className={styles["form__invalid"]}>{isError && errorMessage}</p>
       </div>
     );
   }

@@ -45,7 +45,7 @@ const FormErrorReducer = (
   const { email, password, confirm, miscEmail } = payload;
   switch (type) {
     case ValidateFormType.EMAIL:
-      if ((email && !validateEmail(email)) || miscEmail) {
+      if (!email || !validateEmail(email) || miscEmail) {
         return {
           ...state,
           emailError: true,
@@ -57,7 +57,7 @@ const FormErrorReducer = (
       };
 
     case ValidateFormType.PASSWORD:
-      if (password && password.length < 6) {
+      if (!password || password.length < 6) {
         return {
           ...state,
           passwordError: true,
@@ -109,7 +109,7 @@ const RegisterForm: React.FC = () => {
       confirm: confirmRef.current?.value,
       miscEmail: false,
     };
-
+    console.log(formValue.password);
     setErrorMessage(ErrorMessageState);
 
     dispatch({ type: ValidateFormType.EMAIL, payload: formValue });
@@ -131,10 +131,11 @@ const RegisterForm: React.FC = () => {
           errorMessage.charAt(0),
           upper
         );
+        console.log(errorMessage);
 
         formValue.miscEmail = true;
         if (upperErrorMessage === "Email already in use") {
-          console.log(upperErrorMessage);
+          // console.log(upperErrorMessage);
           setErrorMessage((state: ErrorMessageType) => ({
             ...state,
             emailMessage: "Email already in use",
