@@ -6,16 +6,23 @@ import "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { auth } from "../utils/auth.utils";
-
+import { auth, jwtkey1 } from "../utils/auth.utils";
+import { sign, verify } from "jsonwebtoken";
 const Home: NextPage = () => {
   const [user] = useAuthState(auth);
   const router = useRouter();
 
   //check if user authenticated
-  useEffect(() => {
-    if (!user) router.push("/auth/login");
-  }, [user, router]);
+  // useEffect(() => {
+  //   const token = localStorage.getItem("tokek");
+  //   // console.log(token);
+  //   verify(token as string, jwtkey1, (err, x) => {
+  //     console.log(x);
+  //   });
+  // }, []);
+  // useEffect(() => {
+  //   if (!user) router.push("/auth/login");
+  // }, [user, router]);
 
   return (
     <>
