@@ -3,7 +3,9 @@ import styles from "./Header.module.css";
 import Image from "next/image";
 import avatar from "../../images/avatar.jpg";
 import { ClipboardCopyIcon } from "@heroicons/react/outline";
-
+import { signOut } from "firebase/auth";
+import { auth } from "../../utils/auth.utils";
+import router from "next/router";
 const triggerCopyText = (
   isClick: boolean,
   ref: React.RefObject<HTMLDivElement>,
@@ -21,16 +23,6 @@ const triggerCopyText = (
   }
 };
 
-const Header: React.FC = () => {
-  return (
-    <header className={styles.header}>
-      <HeaderAuthenticated />
-    </header>
-  );
-};
-
-export default Header;
-
 const HeaderAuthenticated: React.FC = () => {
   const [isClick, setIsClick] = useState<boolean>(false);
   const textCopyRef = useRef<HTMLDivElement>(null);
@@ -39,6 +31,13 @@ const HeaderAuthenticated: React.FC = () => {
   useEffect(() => {
     triggerCopyText(isClick, textCopyRef, setIsClick);
   }, [isClick]);
+
+  //signOut
+  const SignOutHandler = async () => {
+    await signOut(auth);
+    localStorage.removeItem("tokek");
+    router.push("/auth/login");
+  };
 
   return (
     <>
@@ -69,9 +68,19 @@ const HeaderAuthenticated: React.FC = () => {
         <input type="number" placeholder="User ID" />
         <UserAddIcon className={styles["header__add-icon"]} />
       </div> */}
-      <div className={styles["sign-button"]}>
+      <div className={styles["sign-button"]} onClick={SignOutHandler}>
         <a href="#">Sign Out</a>
       </div>
     </>
   );
 };
+
+const Header: React.FC = () => {
+  return (
+    <header className={styles.header}>
+      <HeaderAuthenticated />
+    </header>
+  );
+};
+
+export default Header;

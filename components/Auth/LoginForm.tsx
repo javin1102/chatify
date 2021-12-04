@@ -1,53 +1,35 @@
 import router from "next/router";
 import { useEffect, useReducer, useRef, useState } from "react";
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import {
+  useAuthState,
+  useSignInWithEmailAndPassword,
+} from "react-firebase-hooks/auth";
 import { auth, jwtkey1 } from "../../utils/auth.utils";
 import styles from "./Form.module.css";
 import { FormInput, FormButton, FormLink } from "./FormComponent";
-import { verify, VerifyOptions } from "jsonwebtoken";
+import { verify } from "jsonwebtoken";
 import { AppDispatch } from "../../redux/store";
 import { useDispatch } from "react-redux";
 import { setUserCredentials } from "../../redux/user-slice";
-
-interface UserType {
-  user_id: string;
-  name: string;
-}
+import { UserJWT } from "../../_structure/user";
+import {
+  setPersistence,
+  browserSessionPersistence,
+  AuthError,
+} from "firebase/auth";
 const LoginForm: React.FC = () => {
   const [emailError, setEmailError] = useState<boolean>(false);
   const [passwordError, setPasswordError] = useState<boolean>(false);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
-  const dispatch = useDispatch<AppDispatch>();
-
+  // const dispatch = useDispatch<AppDispatch>();
+  const [userAuth, loadingAuth, errorAuth] = useAuthState(auth);
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
 
-  //Verify JwtToken
   useEffect(() => {
-    const token = localStorage.getItem("tokek");
-    if (token) {
-      verify(token, jwtkey1, function (err, validatedToken) {
-        if (err) return;
-        const decoded = validatedToken as UserType;
-        dispatch(
-          setUserCredentials({ name: decoded.name, userId: decoded.user_id })
-        );
-        router.push("/");
-      });
-    }
-  }, [dispatch]);
-
-  //Login Controller
-  useEffect(() => {
-    const setToken = async () => {
-      const tokenId = await user?.user.getIdToken();
-      localStorage.setItem("tokek", tokenId as string);
-    };
-
-    if (user) {
-      setToken();
+    if (userAuth) {
       router.push("/");
     }
 
@@ -59,7 +41,7 @@ const LoginForm: React.FC = () => {
       )
         setEmailError(true);
     }
-  }, [user, error]);
+  }, [userAuth, error]);
 
   const onSubmitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
@@ -72,7 +54,14 @@ const LoginForm: React.FC = () => {
       setPasswordError(true);
       return;
     }
-    signInWithEmailAndPassword(email as string, password as string);
+
+    setPersistence(auth, browserSessionPersistence)
+      .then(() => {
+        return signInWithEmailAndPassword(email as string, password as string);
+      })
+      .catch((error: AuthError) => {
+        console.error(error.code);
+      });
   };
 
   return (

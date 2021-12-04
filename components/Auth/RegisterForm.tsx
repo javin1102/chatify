@@ -128,7 +128,6 @@ const RegisterForm: React.FC = () => {
   const [state, dispatch] = useReducer(FormErrorReducer, FormReducerState);
   const [errorMessage, setErrorMessage] = useState(ErrorMessageState);
 
-  const dispatchRegister = useDispatch<AppDispatch>();
   const [authUser] = useAuthState(auth);
 
   useEffect(() => {
@@ -174,39 +173,26 @@ const RegisterForm: React.FC = () => {
       auth,
       String(emailRef.current?.value),
       String(passwordRef.current?.value)
-    )
-      .then(async (userCredential: UserCredential) => {
-        console.log(userCredential);
+    ).catch((error) => {
+      const errorMessage = error.code.split("/")[1].split("-").join(" ");
+      const upper = errorMessage.charAt(0).toUpperCase();
+      const upperErrorMessage = errorMessage.replace(
+        errorMessage.charAt(0),
+        upper
+      );
 
-        dispatchRegister(
-          setUserCredentials({
-            name: formValue.username,
-            userId: userCredential.user.uid,
-          })
-        );
-        const tokenId = await userCredential.user.getIdToken();
-        localStorage.setItem("tokek", tokenId);
-      })
-      .catch((error) => {
-        const errorMessage = error.code.split("/")[1].split("-").join(" ");
-        const upper = errorMessage.charAt(0).toUpperCase();
-        const upperErrorMessage = errorMessage.replace(
-          errorMessage.charAt(0),
-          upper
-        );
+      console.log(errorMessage);
 
-        console.log(errorMessage);
-
-        formValue.miscEmail = true;
-        if (upperErrorMessage === "Email already in use") {
-          // console.log(upperErrorMessage);
-          setErrorMessage((state: ErrorMessageType) => ({
-            ...state,
-            emailMessage: "Email already in use",
-          }));
-          dispatch({ type: ValidateFormType.EMAIL, payload: formValue });
-        }
-      });
+      formValue.miscEmail = true;
+      if (upperErrorMessage === "Email already in use") {
+        // console.log(upperErrorMessage);
+        setErrorMessage((state: ErrorMessageType) => ({
+          ...state,
+          emailMessage: "Email already in use",
+        }));
+        dispatch({ type: ValidateFormType.EMAIL, payload: formValue });
+      }
+    });
   };
   return (
     <form className={styles.form} onSubmit={onSubmitHandler} noValidate>

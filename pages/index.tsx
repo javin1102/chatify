@@ -6,27 +6,19 @@ import "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { auth, jwtkey1 } from "../utils/auth.utils";
-import { sign, verify } from "jsonwebtoken";
-const Home: NextPage = () => {
-  const [user] = useAuthState(auth);
-  const router = useRouter();
+import { auth } from "../utils/auth.utils";
 
-  //check if user authenticated
-  // useEffect(() => {
-  //   const token = localStorage.getItem("tokek");
-  //   // console.log(token);
-  //   verify(token as string, jwtkey1, (err, x) => {
-  //     console.log(x);
-  //   });
-  // }, []);
-  // useEffect(() => {
-  //   if (!user) router.push("/auth/login");
-  // }, [user, router]);
+const Home: NextPage = () => {
+  const [userAuth, loading] = useAuthState(auth);
+  const router = useRouter();
+  console.log(userAuth);
+  useEffect(() => {
+    if (!userAuth) router.push("/auth/login");
+  }, [router, userAuth]);
 
   return (
     <>
-      {user ? (
+      {userAuth ? (
         <div className="app-container">
           <Header />
           <AddFriend />
