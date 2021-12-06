@@ -11,10 +11,10 @@ import { auth } from "../utils/utils";
 const Home: NextPage = () => {
   const [userAuth, loading] = useAuthState(auth);
   const router = useRouter();
-
   useEffect(() => {
+    if (loading) return;
     if (!userAuth) router.push("/auth/login");
-  }, [router, userAuth]);
+  });
 
   return (
     <>
@@ -25,7 +25,7 @@ const Home: NextPage = () => {
           <FriendListLayout />
         </div>
       ) : (
-        <>:</>
+        <> </>
       )}
     </>
   );
