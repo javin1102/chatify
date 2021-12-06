@@ -6,6 +6,8 @@ import styles from "./FriendList.module.css";
 interface FriendProps {
   name: string;
   lastChat?: string | null | undefined;
+  id: string;
+  onClick: React.MouseEventHandler<HTMLDivElement> | undefined;
 }
 
 const FriendProfilePic: React.FC = () => {
@@ -16,9 +18,14 @@ const FriendProfilePic: React.FC = () => {
   );
 };
 
-export const FriendLayout: React.FC<FriendProps> = ({ name, lastChat }) => {
+export const FriendLayout: React.FC<FriendProps> = ({
+  name,
+  lastChat,
+  id,
+  onClick,
+}) => {
   return (
-    <div className={styles["friend-container"]}>
+    <div className={styles["friend-container"]} onClick={onClick}>
       <div className={styles["friend-layout"]}>
         <FriendProfilePic />
         <div className={styles["friend-detail"]}>
