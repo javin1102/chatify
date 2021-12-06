@@ -6,12 +6,12 @@ import "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { auth } from "../utils/auth.utils";
+import { auth } from "../utils/utils";
 
 const Home: NextPage = () => {
   const [userAuth, loading] = useAuthState(auth);
   const router = useRouter();
-  console.log(userAuth);
+
   useEffect(() => {
     if (!userAuth) router.push("/auth/login");
   }, [router, userAuth]);

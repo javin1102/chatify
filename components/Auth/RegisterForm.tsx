@@ -1,6 +1,6 @@
 import styles from "./Form.module.css";
 import { FormInput, FormButton, FormLink } from "./FormComponent";
-import { auth, validateEmail } from "../../utils/auth.utils";
+import { auth, validateEmail } from "../../utils/utils";
 import { useEffect, useReducer, useRef, useState } from "react";
 import {
   createUserWithEmailAndPassword,
@@ -8,11 +8,9 @@ import {
   updateProfile,
   User,
 } from "firebase/auth";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../redux/store";
-import { setUserCredentials } from "../../redux/user-slice";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter } from "next/router";
+import { collection, doc, getFirestore, setDoc } from "@firebase/firestore";
 
 enum ValidateFormType {
   USERNAME = "USERNAME",
@@ -28,6 +26,7 @@ interface FormType {
   confirm: string | undefined;
   miscEmail?: boolean;
 }
+
 interface ValidateFormAction {
   type: ValidateFormType;
   payload: FormType;
@@ -39,6 +38,7 @@ interface ValidateFormState {
   passwordError: boolean;
   confirmError: boolean;
 }
+
 interface ErrorMessageType {
   usernameMessage: string;
   emailMessage: string;
@@ -110,12 +110,14 @@ const FormErrorReducer = (
       return state;
   }
 };
+
 const ErrorMessageState: ErrorMessageType = {
   usernameMessage: "Username must be filled",
   emailMessage: "Invalid Email",
   passwordMessage: "Password need to be at least 6 characters",
   confirmMessage: "Password does not match",
 };
+
 const RegisterForm: React.FC = () => {
   const usernameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
@@ -135,6 +137,7 @@ const RegisterForm: React.FC = () => {
       await updateProfile(authUser as User, {
         displayName: usernameRef.current?.value,
       });
+
       return router.push("/");
     };
     if (authUser && usernameRef.current?.value) {
@@ -173,26 +176,32 @@ const RegisterForm: React.FC = () => {
       auth,
       String(emailRef.current?.value),
       String(passwordRef.current?.value)
-    ).catch((error) => {
-      const errorMessage = error.code.split("/")[1].split("-").join(" ");
-      const upper = errorMessage.charAt(0).toUpperCase();
-      const upperErrorMessage = errorMessage.replace(
-        errorMessage.charAt(0),
-        upper
-      );
+    )
+      .then((user: UserCredential) => {
+        const db = getFirestore();
+        const docRef = doc(db, "users", user.user.uid as string);
+        setDoc(docRef, { name: usernameRef.current?.value, id: user.user.uid });
+      })
+      .catch((error) => {
+        const errorMessage = error.code.split("/")[1].split("-").join(" ");
+        const upper = errorMessage.charAt(0).toUpperCase();
+        const upperErrorMessage = errorMessage.replace(
+          errorMessage.charAt(0),
+          upper
+        );
 
-      console.log(errorMessage);
+        console.log(errorMessage);
 
-      formValue.miscEmail = true;
-      if (upperErrorMessage === "Email already in use") {
-        // console.log(upperErrorMessage);
-        setErrorMessage((state: ErrorMessageType) => ({
-          ...state,
-          emailMessage: "Email already in use",
-        }));
-        dispatch({ type: ValidateFormType.EMAIL, payload: formValue });
-      }
-    });
+        formValue.miscEmail = true;
+        if (upperErrorMessage === "Email already in use") {
+          // console.log(upperErrorMessage);
+          setErrorMessage((state: ErrorMessageType) => ({
+            ...state,
+            emailMessage: "Email already in use",
+          }));
+          dispatch({ type: ValidateFormType.EMAIL, payload: formValue });
+        }
+      });
   };
   return (
     <form className={styles.form} onSubmit={onSubmitHandler} noValidate>

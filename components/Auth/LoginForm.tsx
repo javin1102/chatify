@@ -4,7 +4,7 @@ import {
   useAuthState,
   useSignInWithEmailAndPassword,
 } from "react-firebase-hooks/auth";
-import { auth, jwtkey1 } from "../../utils/auth.utils";
+import { auth, jwtkey1 } from "../../utils/utils";
 import styles from "./Form.module.css";
 import { FormInput, FormButton, FormLink } from "./FormComponent";
 import { verify } from "jsonwebtoken";

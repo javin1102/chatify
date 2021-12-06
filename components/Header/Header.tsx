@@ -4,15 +4,20 @@ import Image from "next/image";
 import avatar from "../../images/avatar.jpg";
 import { ClipboardCopyIcon } from "@heroicons/react/outline";
 import { signOut } from "firebase/auth";
-import { auth } from "../../utils/auth.utils";
+import { auth } from "../../utils/utils";
 import router from "next/router";
+import { useAuthState } from "react-firebase-hooks/auth";
 const triggerCopyText = (
   isClick: boolean,
   ref: React.RefObject<HTMLDivElement>,
-  setIsClick: React.Dispatch<React.SetStateAction<boolean>>
+  setIsClick: React.Dispatch<React.SetStateAction<boolean>>,
+  userId: string
 ) => {
   if (isClick) {
     ref.current?.classList.add(`${styles.active}`);
+
+    navigator.clipboard.writeText(userId);
+
     let timeout1 = setTimeout(() => {
       ref.current?.classList.remove(`${styles.active}`);
       setIsClick(false);
@@ -26,11 +31,11 @@ const triggerCopyText = (
 const HeaderAuthenticated: React.FC = () => {
   const [isClick, setIsClick] = useState<boolean>(false);
   const textCopyRef = useRef<HTMLDivElement>(null);
-
+  const [userAuth] = useAuthState(auth);
   //trigger copied text
   useEffect(() => {
-    triggerCopyText(isClick, textCopyRef, setIsClick);
-  }, [isClick]);
+    triggerCopyText(isClick, textCopyRef, setIsClick, userAuth?.uid as string);
+  }, [isClick, userAuth?.uid]);
 
   //signOut
   const SignOutHandler = async () => {
@@ -48,7 +53,7 @@ const HeaderAuthenticated: React.FC = () => {
         <div className={styles["profile__detail"]}>
           <h2>Javin Rionardi</h2>
           <div className={styles["profile__id"]}>
-            <p id="user-id">12345678</p>
+            <p id="user-id">{userAuth?.uid}</p>
             <div className={styles["profile__copy"]}>
               <ClipboardCopyIcon
                 className={styles["profile__copy-icon"]}
@@ -64,10 +69,7 @@ const HeaderAuthenticated: React.FC = () => {
           </div>
         </div>
       </div>
-      {/* <div className={styles["add-user"]}>
-        <input type="number" placeholder="User ID" />
-        <UserAddIcon className={styles["header__add-icon"]} />
-      </div> */}
+
       <div className={styles["sign-button"]} onClick={SignOutHandler}>
         <a href="#">Sign Out</a>
       </div>
