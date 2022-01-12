@@ -149,7 +149,6 @@ const RegisterForm: React.FC = () => {
     e
   ) => {
     e.preventDefault();
-
     const formValue: FormType = {
       username: usernameRef.current?.value,
       email: emailRef.current?.value,
@@ -157,13 +156,11 @@ const RegisterForm: React.FC = () => {
       confirm: confirmRef.current?.value,
       miscEmail: false,
     };
-
     setErrorMessage(ErrorMessageState);
     dispatch({ type: ValidateFormType.USERNAME, payload: formValue });
     dispatch({ type: ValidateFormType.EMAIL, payload: formValue });
     dispatch({ type: ValidateFormType.PASSWORD, payload: formValue });
     dispatch({ type: ValidateFormType.CONFIRM, payload: formValue });
-
     if (
       state.usernameError ||
       state.emailError ||
@@ -189,9 +186,7 @@ const RegisterForm: React.FC = () => {
           errorMessage.charAt(0),
           upper
         );
-
         console.log(errorMessage);
-
         formValue.miscEmail = true;
         if (upperErrorMessage === "Email already in use") {
           // console.log(upperErrorMessage);
@@ -204,7 +199,12 @@ const RegisterForm: React.FC = () => {
       });
   };
   return (
-    <form className={styles.form} onSubmit={onSubmitHandler} noValidate>
+    <form
+      data-testid="form-register"
+      className={styles.form}
+      onSubmit={onSubmitHandler}
+      noValidate
+    >
       <FormInput
         id="username"
         type="text"
