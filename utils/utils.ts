@@ -42,14 +42,22 @@ export const addChatToDoc = async (id1: string, id2: string, textMessage: string
 	const chatId = uid(12);
 	const myChatDoc = doc(getChatCollection(id1, id2), chatId);
 	const friendChatDoc = doc(getChatCollection(id2, id1), chatId);
-	const chat: ChatType = {
+	const senderChat: ChatType = {
 		id: chatId,
 		text: textMessage,
 		createdAt: serverTimestamp(),
+		read: false,
+		sender: true,
+	};
+	const receiverChat: ChatType = {
+		id: chatId,
+		text: textMessage,
+		createdAt: serverTimestamp(),
+		sender: false,
 	};
 	try {
-		await setDoc(myChatDoc, chat);
-		await setDoc(friendChatDoc, chat);
+		await setDoc(myChatDoc, senderChat);
+		await setDoc(friendChatDoc, receiverChat);
 	} catch (e) {
 		const error = e as Error;
 		alert("Oops, something went wrong!");

@@ -15,4 +15,6 @@ export interface ChatType {
 	text: string;
 	createdAt: FieldValue;
 	id: string;
+	read?: boolean;
+	sender: boolean;
 }

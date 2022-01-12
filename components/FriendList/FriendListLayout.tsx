@@ -2,19 +2,17 @@ import styles from "./FriendList.module.css";
 import { FriendLayout } from "./FriendListComponent";
 import { UserIcon } from "@heroicons/react/outline";
 import { useCollectionDataOnce } from "react-firebase-hooks/firestore";
-import { collection, doc, getFirestore, query } from "@firebase/firestore";
+import { collection, doc, getFirestore, query, orderBy } from "@firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../utils/utils";
 import router from "next/router";
-import { useSelector } from "react-redux";
-import { StateSelector } from "../../utils/structure";
 
 const FriendListLayout = () => {
 	const [userAuth] = useAuthState(auth);
 	const db = getFirestore();
 	const myDoc = doc(db, "users", userAuth?.uid as string);
 	const myFriendCollection = collection(myDoc, "friends");
-	const myQuery = query(myFriendCollection);
+	const myQuery = query(myFriendCollection, orderBy("name"));
 	const [value, loading] = useCollectionDataOnce(myQuery);
 
 	return (

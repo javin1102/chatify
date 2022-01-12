@@ -9,6 +9,7 @@ const ChatInputForm: React.FC = () => {
 	const [userAuth] = useAuthState(auth);
 	const [chat, setChat] = useState("");
 	const router = useRouter();
+
 	const sendMessage = async () => {
 		const friendId = router.query.id;
 		setChat("");
@@ -18,6 +19,7 @@ const ChatInputForm: React.FC = () => {
 			console.error(e);
 		}
 	};
+
 	return (
 		<div className={styles["input-layout"]}>
 			<input value={chat} onChange={(e) => setChat(e.target.value)} placeholder="Type a message..." />
